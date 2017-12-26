@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>engine room .:. paraphonic</title>
+  <meta name="description" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.min.css">
+  <link rel="stylesheet" href="css/pure-min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="container" class="container">
+    <fieldset class="pure-group">
+        <label for="time">milliseconds</label>
+        <input type="text" name="time" value="1500">
+        <button id="test-mot1" type="submit" class="pure-button pure-input-1-2 pure-button-primary">test motor #1</button>
+        <button id="test-mot2" type="submit" class="pure-button pure-input-1-2 pure-button-primary">test motor #2</button>
+    </fieldset>
+    <fieldset class="pure-group">
+        <button id="test-leds" type="submit" class="pure-button pure-input-1-2 pure-button-primary">test pattern</button>
+    </fieldset>
+    <fieldset class="pure-group">
+        <input type="text" name="solid" value="#ffff00">
+        <button id="test-solid" type="submit" class="pure-button pure-input-1-2 pure-button-primary">solid color</button>
+    </fieldset>
+    <!--
+    <fieldset class="pure-group">
+        <input type="text" name="fadeto" value="#ffff00">
+        <button id="test-leds" type="submit" class="pure-button pure-input-1-2 pure-button-primary">fade to</button>
+    </fieldset>
+    <fieldset class="pure-group">
+        <input type="text" name="from" value="#ee0000">
+        <input type="text" name="to" value="#eeeeee">
+        <button id="test-leds" type="submit" class="pure-button pure-input-1-2 pure-button-primary">gradient</button>
+    </fieldset>
+    -->
+</div>
+</body>
+<script>
+  //$(document).ready(function () {
+
+    $('#test-leds').click(function() { 
+        $.get('http://pyropanda.local/light/test'); // $.get( "test.php", { name: "John", time: "2pm" } );
+    }); //  #test-leds
+
+    $('#test-solid').click(function() { 
+        $.ajax('http://pyropanda.local/light/solid', {
+            type: 'post',
+            data: JSON.stringify({'solid':  $("[name='solid']").val() }),
+            dataType: 'json',
+            contentType: 'text/plain'
+        });
+    }); //  #test-leds
+
+    $('#test-fadeto').click(function() { 
+        $.ajax('http://pyropanda.local/light/fadeto', {
+            type: 'post',
+            data: JSON.stringify({'fadeTo': '#FECCD8', 'time':1500}),
+            dataType: 'json',
+            contentType: 'text/plain', //'application/json'//,
+            // success: function(data) { 
+            //     alert("Testing motor LEDs");
+            // }
+        });
+    }); //  #test-leds
+
+    $('#test-grad').click(function() { 
+        $.ajax('http://pyropanda.local/light/gradient', {
+            type: 'post',
+            data: JSON.stringify({'style':'linear', 'colors':['#000000', '#FEFEFE'], 'time': 1800}),
+            dataType: 'json',
+            contentType: 'text/plain', //'application/json'//,
+            // success: function(data) { 
+            //     alert("Testing motor LEDs");
+            // }
+        });
+    }); //  #test-leds
+
+    $('#test-mot1').click(function() { 
+        $.ajax('http://pyropanda.local/spin', {
+            type: 'post',
+            data: JSON.stringify({'motor':{'id': 1, state:'on' ,'time': $("[name='time']").val() }}),
+            dataType: 'json',
+            contentType: 'text/plain', //'application/json'//,
+            // success: function(data) { 
+            //     alert("Testing motor LEDs");
+            // }
+        });
+    }); //  #test-leds
+
+    $('#test-mot2').click(function() { 
+        $.ajax('http://pyropanda.local/spin', {
+            type: 'post',
+            data: JSON.stringify({'motor':{'id': 2, state:'on' ,'time': $("[name='time']").val() }}),
+            dataType: 'json',
+            contentType: 'text/plain', //'application/json'//,
+            // success: function(data) { 
+            //     alert("Testing motor LEDs");
+            // }
+        });
+    }); //  #test-leds
+
+    // $('#test-mot1').click(function() { 
+    //     $.ajax({
+    //         url: 'http://pyropanda.local/spin',
+    //         type: 'POST',
+    //         data: {'motor':{'id': 1, 'time':15000}},
+    //         success: function (result) {
+    //             alert("Testing motor A");
+    //         },
+    //         error: function (result) {
+    //             alert("something went wrong testing motor 1");
+    //         }
+    //     });  
+    // }); //  #test-mot1
+
+    // $('#test-mot2').click(function() { 
+    //     $.ajax({
+    //         url: 'http://pyropanda.local/spin',
+    //         type: 'POST',
+    //         data: {'motor':{'id': 2, 'time':15000}},
+    //         success: function (result) {
+    //             alert("Testing motor B");
+    //         },
+    //         error: function (result) {
+    //             alert("something went wrong testing motor 2");
+    //         }
+    //     });  
+    // }); //  #test-mot2
+
+//  });
+</script>
+</html>

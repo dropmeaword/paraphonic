@@ -2,8 +2,8 @@
 #include "motor.h"
 #include "log.h"
 
-const int pinM1 = D3;
-const int pinM2 = D4;
+const int pinM1 = D5;
+const int pinM2 = D6;
 
 unsigned long m1Timeout = 0;
 unsigned long m2Timeout = 0;
@@ -20,8 +20,7 @@ void motor_init() {
 }
 
 void motor_on(int id, int msecs) {
-    LOG("motor on");
-    LOG_NEW_LINE
+    bool changed = false;
 
     switch(id) {
         case 1:
@@ -33,11 +32,15 @@ void motor_on(int id, int msecs) {
             m2Timeout = millis() + msecs;
             break;
     }
+
+    if(changed) {
+        LOG("motor on");
+        LOG_NEW_LINE
+    }
 }
 
 void motor_off(int id) {
-    LOG("motor off");
-    LOG_NEW_LINE
+    bool changed = false;
 
     switch(id) {
         case 1:
@@ -46,6 +49,11 @@ void motor_off(int id) {
         case 2:
             digitalWrite(pinM2, HIGH);
             break;
+    }
+
+    if(changed) {
+        LOG("motor off");
+        LOG_NEW_LINE
     }
 }
 

@@ -4,6 +4,7 @@
 #define LOG_ENABLED
 
 #define wifi_ssid      "PARAPHONIC"
-#define wifi_password  "" //"30youngBOYSfromDELAWARE"
+#define wifi_password  ""
+
 
 #endif // __CONFIG_H__

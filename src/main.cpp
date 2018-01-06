@@ -24,16 +24,14 @@ void setup()
 
   wifi_init();
   web_init();
-//  conserver_setup();
   digitalWrite(BUILTIN_LED, HIGH);
+
+  ledstrip_test_pattern();
 }
 
 void loop()
 {
-  // this runs the webserver loop 
-  //conserver_loop();
   motor_loop();
   ledstrip_loop();
   web_loop();
-  delay(10);
 }

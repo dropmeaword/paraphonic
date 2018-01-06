@@ -1,6 +1,8 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
+#define LOG_ENABLED
+
 #include "Arduino.h"
 
 // #define LOG(severity, msg) p msg;

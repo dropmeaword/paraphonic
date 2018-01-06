@@ -4,7 +4,10 @@
 #include <FastLED.h>
 
 // LED settings
-#define NUM_LEDS 51
+#define STRIPS 7
+#define LEDS_PER_STRIP 28
+#define NUM_LEDS LEDS_PER_STRIP * STRIPS
+
 extern const int numLeds;
 extern const int numberOfChannels;
 

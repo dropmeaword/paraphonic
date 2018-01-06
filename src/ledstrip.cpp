@@ -7,8 +7,8 @@ const int numLeds = NUM_LEDS;
 const int numberOfChannels = numLeds * 3;
 
 // pinout for LED strip
-const int pinSDA = D2;
-const int pinCLK = D1;
+const int pinCLK = D7; //D3;
+const int pinSDA = D8; //D4;
 
 
 // ESPIChipsets CHIPSET,  uint8_t DATA_PIN, uint8_t CLOCK_PIN, EOrder RGB_ORDER > static CLEDController &addLeds(struct CRGB *data, int nLedsOrOffset, int nLedsIfOffset = 0) {
@@ -17,7 +17,7 @@ const int pinCLK = D1;
 void ledstrip_init() { //(const int ledcount, ESPIChipsets chipset, uint8_t  psda, uint8_t  pclk, EOrder rgbcomp) {
   FastLED.addLeds<APA102, pinSDA, pinCLK, BGR>(leds, NUM_LEDS);
   FastLED.setBrightness(96);
-  set_max_power_in_volts_and_milliamps(5, 2500);
+  set_max_power_in_volts_and_milliamps(5, 3000);
   LOG("Initializing LEDs...");
   LOG_NEW_LINE
 }
@@ -30,7 +30,6 @@ void ledstrip_solid(int r, int g, int b) {
   for (int i = 0 ; i < numLeds ; i++) {
     leds[i] = CRGB(r, g, b);
   }
-
   show_at_max_brightness_for_power();
 }
 

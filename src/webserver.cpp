@@ -92,6 +92,7 @@ void handle_light_solid() {
 }
 
 void handle_root() {
+    server.send(200, "text/plain", "POLYDISO controller is online");
 }
 
 void handle_404(){

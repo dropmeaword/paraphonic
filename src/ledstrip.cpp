@@ -62,6 +62,28 @@ void ledstrip_test_pattern()
   FastLED.show();
 }
 
+void ledstrip_online_pattern()
+{
+  int waiting = 500;
+
+  LOG(">>> wifi connected pattern");
+  LOG_NEW_LINE
+
+  for(int j = 0; j < 3; j++) {
+    for (int i = 0 ; i < numLeds ; i++)
+      leds[i] = CRGB(127, 0, 0);
+
+    FastLED.show();
+    delay(waiting);
+
+    for (int i = 0 ; i < numLeds ; i++)
+      leds[i] = CRGB(0, 0, 0);
+
+    FastLED.show();
+    delay(waiting);
+  }
+}
+
 /*
 void fade(uint16_t duration, Color startColor, Color endColor) {
 

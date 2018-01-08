@@ -20,17 +20,19 @@ void setup()
   pinMode(BUILTIN_LED, OUTPUT);
 
   motor_init();
+
   ledstrip_init();
+  ledstrip_test_pattern();
 
   wifi_init();
   web_init();
   digitalWrite(BUILTIN_LED, HIGH);
-
-  ledstrip_test_pattern();
 }
 
 void loop()
 {
+  retry.run();
+  
   motor_loop();
   ledstrip_loop();
   web_loop();

@@ -2,8 +2,8 @@
 #include "motor.h"
 #include "log.h"
 
-const int pinM1 = D5;
-const int pinM2 = D6;
+const int pinM1 = D2;
+const int pinM2 = D3;
 
 unsigned long m1Timeout = 0;
 unsigned long m2Timeout = 0;

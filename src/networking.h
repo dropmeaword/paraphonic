@@ -4,6 +4,9 @@
 #include <DNSServer.h>
 #include <ESP8266mDNS.h>
 
+#include <SimpleTimer.h>
+
+
 enum WifiMode {
     CLIENT = 10,        // station node
     HYBRID_AP = 15,     // station + ap
@@ -15,6 +18,7 @@ enum WifiMode {
 
 extern DNSServer dnsServer;
 extern IPAddress thisip;
+extern SimpleTimer retry;
 
 void wifi_init();
 

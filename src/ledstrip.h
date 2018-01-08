@@ -19,6 +19,7 @@ extern const int pinCLK;
 void ledstrip_init();
 void ledstrip_refresh();
 void ledstrip_test_pattern();
+void ledstrip_online_pattern();
 
 void ledstrip_solid(int r, int g, int b);
 void ledstrip_loop();

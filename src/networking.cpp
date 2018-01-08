@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "networking.h"
+#include "ledstrip.h"
 
 #include "log.h"
 
@@ -19,6 +20,9 @@ DNSServer dnsServer;
 IPAddress ip_static = IPAddress(10, 0, 0, 1);
 IPAddress gw_static = IPAddress(10, 0, 0, 1);
 IPAddress sn_static = IPAddress(255, 255, 255, 0);
+
+SimpleTimer retry;
+int timerId = -1;
 
 /**
  * connect to WiFi access point as client station
@@ -104,8 +108,44 @@ bool network_create_mdns_entry(const char *entryname) {
   }
 }
 
+void wifi_retry_connection() {
+  // first try to connect to a given WiFi AP
+  if( wifi_connect_as_client(wifi_ssid, wifi_password) ) {
+    LOG("Connected to ");
+    LOG(wifi_ssid);
+    LOG("IP address: ");
+    Serial.println( WiFi.localIP() );
+
+    // LOG( cfgutil_get_ip_address() );
+    LOG_NEW_LINE
+    
+    ledstrip_online_pattern();
+
+    // // save IP
+    // persistence_save_settings();
+
+    // create mDNS entry
+    String mdns = "pyropanda" + thisip[3];
+    network_create_mdns_entry( mdns.c_str() );
+    // disable retry timer if the wifi connection suceeded
+    if(timerId > 0) { retry.disable(timerId); }
+  } else {
+    LOG("Failed to connect to WiFi, retrying in ");
+    LOG(WIFI_RETRY_IN_SECS);
+    LOG(" seconds...");
+    LOG_NEW_LINE
+
+    // if we didn't succedd at connecting to wifi, retry in
+    timerId = retry.setTimeout(WIFI_RETRY_IN_SECS*1000, wifi_retry_connection);
+  }
+}
+
 void wifi_init()
 {
+  // initialize the retry loop and keep trying until we succeed
+  wifi_retry_connection();
+
+  /*
   // first try to connect to a given WiFi AP
   if( wifi_connect_as_client(wifi_ssid, wifi_password) ) {
     LOG("Connected to ");
@@ -130,4 +170,5 @@ void wifi_init()
 
     wifi_create_ap("PP_UNCONFIGURED");
   }
+  */
 }

@@ -25,14 +25,14 @@ void setup()
   ledstrip_test_pattern();
 
   wifi_init();
-  web_init();
   digitalWrite(BUILTIN_LED, HIGH);
+  //web_init();
 }
 
 void loop()
 {
   retry.run();
-  
+
   motor_loop();
   ledstrip_loop();
   web_loop();

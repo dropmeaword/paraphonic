@@ -6,11 +6,12 @@
 #include "ledstrip.h"
 #include "log.h"
 
+bool wsInitialized = false;
 ESP8266WebServer server(80);
 
 void parse_css_color(String ccode, int &r, int &g, int &b) {
     //string hexstring = "#FF3Fa0";
-    int number = strtol( &ccode[1], NULL, 16);
+    int number = strtol(&ccode[0], NULL, 16); //&ccode[1], NULL, 16);
 
     // Split them up into r, g, b values
     r = number >> 16;
@@ -27,6 +28,20 @@ void post_result(String retval) {
 }
 
 void handle_motor() {
+    String mid = server.arg("id");
+    //String state = server.arg("state");
+    String tms = server.arg("time");
+
+    Serial.print("motor with id = ");
+    Serial.print(mid);
+    Serial.print(" and time = ");
+    Serial.print(tms);
+
+    motor_on(mid.toInt(), tms.toInt());
+
+    post_result("{'result':'ok'}");
+/*
+
     String posted = server.arg("plain");
 
     DynamicJsonBuffer jsonBuffer(4096);
@@ -56,6 +71,7 @@ void handle_motor() {
     motor_on(id, ms);
 
     post_result("{'result':'ok'}");
+*/
 }
 
 void handle_light_test() {
@@ -67,8 +83,48 @@ void handle_light_gradient() {
     post_result("{'result':'ok'}");
 }
 
+void debug_params() {
+    String message = "Number of args received:";
+    message += server.args();            //Get number of parameters
+    message += "\n";                            //Add a new line
+
+    for (int i = 0; i < server.args(); i++) {
+        message += "Arg nr. " + (String)i + " => ";
+        message += server.argName(i) + " = "; 
+        message += server.arg(i) + "\n";
+    } 
+
+    server.send(200, "text/plain", message);       //Response to the HTTP request
+}
+
 void handle_light_solid() {
+
+    String solid = server.arg("solid");
+
+    Serial.print("solid parameter ");
+    Serial.println(solid);
+
+
+    int r, g, b;
+    parse_css_color(solid, r, g, b);
+
+    Serial.print("setting color ");
+    Serial.print(r);
+    Serial.print(",");
+    Serial.print(g);
+    Serial.print(",");
+    Serial.print(b);
+    Serial.println();
+
+    ledstrip_solid(r, g, b);
+
+    post_result("{'result':'ok'}");
+
+/* 
+    // THIS IS WITH POST REQUEST RAW BODY
     String posted = server.arg("plain");
+
+    Serial.println( posted );
 
     DynamicJsonBuffer jsonBuffer(4096);
     JsonObject& root = jsonBuffer.parseObject(posted);
@@ -89,9 +145,11 @@ void handle_light_solid() {
 
 
     post_result("{'result':'ok'}");
+*/
 }
 
 void handle_root() {
+    Serial.println("Request to / received");
     server.send(200, "text/plain", "POLYDISO controller is online");
 }
 
@@ -112,8 +170,11 @@ void web_init() {
 
     server.begin();
     Serial.println ( "HTTP server is listening" );
+    wsInitialized = true;
 }
 
 void web_loop() {
-    server.handleClient();
+    if(wsInitialized) {
+        server.handleClient();
+    }
 }

@@ -62,3 +62,36 @@ Executing `iw dev wlan0 station dump` as root, shows these two nodes.
 Station 34:36:3b:cb:3b:ae (on wlan0)  (workstation)
 Station 60:01:94:82:89:27 (on wlan0)  (wemos node)
 ```
+
+## Example requests
+
+LEDs
+
+```
+http://10.0.0.15/light/solid?solid=f0ffee
+```
+
+MOTORS
+
+```
+http://10.0.0.15/spin?id=1&time=4000
+```
+
+#### bad iptables rules
+
+```
+someone@paradiso:/etc/lighttpd$ sudo iptables -S
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+-A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i wlan0 -o eth0 -j ACCEPT
+someone@paradiso:/etc/lighttpd$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.42.1
+someone@paradiso:/etc/lighttpd$ sudo iptables -P FORWARD DROP
+someone@paradiso:/etc/lighttpd$ sudo iptables -S
+-P INPUT ACCEPT
+-P FORWARD DROP
+-P OUTPUT ACCEPT
+-A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i wlan0 -o eth0 -j ACCEPT
+```

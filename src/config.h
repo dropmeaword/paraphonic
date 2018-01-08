@@ -6,6 +6,6 @@
 #define wifi_ssid      "PARAPHONIC"
 #define wifi_password  ""
 
-#define WIFI_RETRY_IN_SECS 1*60
+#define WIFI_RETRY_IN_SECS 10 //1*60
 
 #endif // __CONFIG_H__

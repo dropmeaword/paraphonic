@@ -79,6 +79,15 @@ http://10.0.0.15/spin?id=1&time=4000
 
 #### bad iptables rules
 
+these I am not sure about:
+
+```
+iptables -t mangle -N internet iptables -t mangle -A PREROUTING -i wlan0 -p tcp -m tcp --dport 80 -j internet iptables -t mangle -A internet -j MARK --set-mark 99
+iptables -t nat -A PREROUTING -i wlan0 -p tcp -m mark --mark 99 -m tcp --dport 80 -j DNAT --to-destination 192.168.10.1
+```
+
+these ones didn't do what I want:
+
 ```
 someone@paradiso:/etc/lighttpd$ sudo iptables -S
 -P INPUT ACCEPT

@@ -69,6 +69,13 @@ Change the line that shows `ssid=PARAPHONIC` and change the word *PARAPHONIC* fo
 
 If everything went well you should see no output the `service` command only produces output when something goes wrong.
 
+#### How to give the ptive portal another domain name
+
+Because we run our own DNS in the Rpi you can give the website any DNS name entry we like, the default hand configured ones are `paraphonic.com` and `polydiso.com` but you can call it anything you like.
+
+You just have to add an entry to this file `/etc/paraphonic.hosts`.
+
+
 ## Web control panel
 
 The Rpi AP runs a simple web-based configuration panel, which you can find at [http://192.168.42.1:8080](http://192.168.42.1:8080) ask for login credentials.

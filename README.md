@@ -30,7 +30,7 @@ You can communicate with the hardware controller using HTTP `GET` requests, like
 The base URL for all your requests to the hardware will be `http://192.168.42.101`, to this URL you can add the following endpoints to interface with the different elements:
 
 |endpoint|accepted parameters|function|
-|---|---|---|---|
+|---|---|---|
 |/spin|*id*: motor id, *state*: on/off, *time*: unning time in millis|spins the motor with *id* for *milliseconds*, the *state* parameter is ignored in the current implementation.
 |/light/test|n.a.|flashes an R, G ,B sequence on the lights, this is used for testing purposes|
 |/light/solid|*solid*: css color code (without the #)|sets all lights to the color expressed in the color code|

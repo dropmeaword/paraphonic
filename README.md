@@ -75,8 +75,3 @@ Because we run our own DNS in the Rpi you can give the website any DNS name entr
 
 You just have to add an entry to this file `/etc/paraphonic.hosts`.
 
-
-## Web control panel
-
-The Rpi AP runs a simple web-based configuration panel, which you can find at [http://192.168.42.1:8080](http://192.168.42.1:8080) ask for login credentials.
-

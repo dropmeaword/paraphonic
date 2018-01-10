@@ -1,5 +1,10 @@
 # Dev notes
 
+## Web control panel
+
+The Rpi AP runs a simple web-based configuration panel, which you can find at [http://192.168.42.1:8080](http://192.168.42.1:8080) ask for login credentials.
+
+
 #### For website deployment
 
 _See SSH access above_
